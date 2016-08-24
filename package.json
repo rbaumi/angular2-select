@@ -1,0 +1,58 @@
+{
+    "name": "angular2-select",
+    "description": "An implementation of material design select element for Angular 2",
+    "scripts": {
+        "test": "tsc && karma start",
+        "test-watch": "tsc && karma start --no-single-run --auto-watch",
+        "commit": "npm run prepublish && npm test && git-cz",
+        "x-prepublish": "tsc && node make.js",
+        "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rbaumi/angular2-select.git"
+    },
+    "keywords": [
+        "angular2",
+        "select",
+        "selectbox"
+    ],
+    "author": "Rafal Baumann",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/rbaumi/angular2-select/issues"
+    },
+    "main": "angular2-select.js",
+    "typings": "./angular2-select.d.ts",
+    "homepage": "https://github.com/rbaumi/angular2-select",
+    "devDependencies": {
+        "@angular/common": "2.0.0-rc.5",
+        "@angular/compiler": "2.0.0-rc.5",
+        "@angular/core": "2.0.0-rc.5",
+        "@angular/platform-browser": "2.0.0-rc.5",
+        "@angular/platform-browser-dynamic": "2.0.0-rc.5",
+        "@types/es6-shim": "0.0.30",
+        "@types/jasmine": "2.2.32",
+        "@types/node": "6.0.37",
+        "commitizen": "2.8.6",
+        "cz-conventional-changelog": "1.2.0",
+        "es6-promise": "3.2.1",
+        "es6-shim": "0.35.1",
+        "jasmine-core": "2.4.1",
+        "karma": "1.2.0",
+        "karma-chrome-launcher": "2.0.0",
+        "karma-firefox-launcher": "1.0.0",
+        "karma-jasmine": "1.0.2",
+        "karma-typescript-preprocessor": "0.2.1",
+        "reflect-metadata": "0.1.8",
+        "rxjs": "5.0.0-beta.11",
+        "semantic-release": "4.3.5",
+        "systemjs": "0.19.37",
+        "systemjs-builder": "0.15.29",
+        "typescript": "2.0.0",
+        "zone.js": "0.6.17"
+    },
+    "czConfig": {
+        "path": "node_modules/cz-conventional-changelog"
+    }
+}
