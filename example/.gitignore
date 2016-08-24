@@ -1,6 +1,6 @@
-node_modules/
 *.js
 *.map
+index-dev.html
+node-modules/
 
-!make.js
 !systemjs.config.js
