@@ -1,0 +1,30 @@
+div.bm-ng2-select-container {
+    position: relative;
+    md-input {
+        width: 100%;
+        z-index: 1;
+    }
+    md-icon {
+        position: absolute;
+        top: 16px;
+        right: 0;
+        color: rgba(0, 0, 0, 0.38);
+        cursor: pointer;
+        z-index: 2;
+    }
+    div.options {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 2;
+        md-card {
+            padding:0;
+            max-height: 254px;
+            overflow-y: auto;
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+        }
+    }
+}

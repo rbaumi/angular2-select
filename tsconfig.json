@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",
     "emitDecoratorMetadata": true,
@@ -17,9 +17,9 @@
   },
   "files": [
     "angular2-select.ts",
-    "./src/angular2-select.component.ts",
-    "./src/angular2-select.service.ts",
-    "tests/angular2-select.service.spec.ts"
+    "./src/select.component.ts",
+    "./src/option.component.ts",
+    "./src/select.service.ts"
   ],
   "exclude": [
     "node_modules",

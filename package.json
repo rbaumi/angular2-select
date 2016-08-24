@@ -4,8 +4,8 @@
     "scripts": {
         "test": "tsc && karma start",
         "test-watch": "tsc && karma start --no-single-run --auto-watch",
-        "commit": "npm run prepublish && npm test && $(npm bin)/git-cz",
-        "x-prepublish": "tsc && node make.js",
+        "commit": "npm run prepublish && npm test && git-cz",
+        "prepublish": "tsc && node make.js",
         "semantic-release": "semantic-release pre && npm publish && semantic-release post"
     },
     "repository": {
@@ -29,6 +29,8 @@
         "@angular/common": "2.0.0-rc.5",
         "@angular/compiler": "2.0.0-rc.5",
         "@angular/core": "2.0.0-rc.5",
+        "@angular/http": "2.0.0-rc.5",
+        "@angular/forms": "0.3.0",
         "@angular/platform-browser": "2.0.0-rc.5",
         "@angular/platform-browser-dynamic": "2.0.0-rc.5",
         "@types/es6-shim": "0.0.30",
@@ -51,6 +53,12 @@
         "systemjs-builder": "0.15.29",
         "typescript": "2.0.0",
         "zone.js": "0.6.17"
+    },
+    "dependencies": {
+        "@angular2-material/core": "2.0.0-alpha.7-4",
+        "@angular2-material/card": "2.0.0-alpha.7-4",
+        "@angular2-material/input": "2.0.0-alpha.7-4",
+        "@angular2-material/icon": "2.0.0-alpha.7-4"
     },
     "czConfig": {
         "path": "node_modules/cz-conventional-changelog"

@@ -1,0 +1,1 @@
+li{clear:both;color:rgba(0,0,0,0.87);height:50px;line-height:50px;border-bottom:1px solid #ededed;width:100%;text-align:left;text-transform:none;list-style-type:none}li.disabled{color:rgba(0,0,0,0.3);background-color:transparent}li.active{background-color:#F5F5F5}li:not(.disabled):hover{background-color:#eee}li div.inner{padding-left:20px}li:not(.disabled){cursor:pointer}
