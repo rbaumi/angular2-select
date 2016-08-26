@@ -6,15 +6,21 @@ import { Component,
     transition,
     animate,
     forwardRef,
-    OnInit,
     ElementRef,
-    ViewChild,
-    AfterContentInit,
+    ContentChildren,
+    QueryList,
+    AfterViewInit,
     Input,
-    Output }                            from '@angular/core';
+    Output,
+    ChangeDetectorRef }                 from '@angular/core';
 import { ControlValueAccessor,
     NG_VALUE_ACCESSOR }                 from '@angular/forms';
-import { Angular2SelectService }        from './select.service';
+import { Angular2OptionComponent }      from './option.component';
+
+export interface Selection {
+    value: string;
+    text: string;
+}
 
 @Component({
     moduleId: module.id,
@@ -24,25 +30,25 @@ import { Angular2SelectService }        from './select.service';
             <md-input
                 autoComplete="off"
                 readOnly="true"
+                [(ngModel)] = "selection.text"
                 (focus)="onEnter()"
                 placeholder="{{placeholder}}"
-                [value]="selectService.getSelectedText()"
                 required="{{required}}">
             </md-input>
             <md-icon
-                *ngIf="!required && selectService.getSelectedValue()"
+                *ngIf="!required && selection.value"
                 fontSet="fa"
                 fontIcon="fa-times"
                 (click)="clear($event)">
             </md-icon>
             <md-icon
-                *ngIf="required && selectService.getSelectedValue()"
+                *ngIf="required && selection.value"
                 fontSet="fa"
                 fontIcon="fa-caret-down">
             </md-icon>
             <div class="options"
-                *ngIf="selectService.isSelectorVisible()"
-                [@animateState]="selectService.getSelectorAnimState()">
+                [hidden]="!areOptionsVisible"
+                [@animateState]="animateState">
                 <md-card>
                     <ul>
                         <ng-content></ng-content>
@@ -77,31 +83,50 @@ import { Angular2SelectService }        from './select.service';
         '(document:click)': 'onClick($event)',
     }
 })
-export class Angular2SelectComponent implements ControlValueAccessor, AfterContentInit {
+export class Angular2SelectComponent implements ControlValueAccessor, AfterViewInit {
     @Input() placeholder: string;
     @Input() required: boolean = false;
-    @ViewChild('[selected]') selected: ElementRef;
+    @Output() selectionChanged: EventEmitter<string> = new EventEmitter();
+
+    @ContentChildren(Angular2OptionComponent) options: QueryList<Angular2OptionComponent>;
+
+    private selection: Selection = {
+        value: null,
+        text: ''
+    };
+    private areOptionsVisible: boolean = false;
+    private animateState: string = 'hidden';
+
 
     // to propagate change event to external form
     private propagateChange = (_: any) => { };
 
-        // to propagate touch event to external form
+    // to propagate touch event to external form
     private propagateTouch = (_: any) => { };
 
     constructor(
         private el: ElementRef,
-        private selectService: Angular2SelectService
-    ) {
-        console.log(this.el.nativeElement.find('li'));
+        private changeDetectionRef: ChangeDetectorRef
+    ) { }
+
+    ngAfterViewInit() {
+        this.options.forEach((option) => {
+            option.onSelect.subscribe(
+                value => {
+                    this.unselectAllOtherOptions(value);
+                    this.markSelectionOnPlaceholder(option, true);
+                    this.hideSelector();
+                }
+            );
+            if (option.selected)
+                this.markSelectionOnPlaceholder(option, false);
+        });
+        this.changeDetectionRef.detectChanges();
     }
 
-    ngAfterContentInit() {
-
-    }
-
-    writeValue(value: any) {
+    writeValue(value: string) {
         if (value !== undefined) {
-            this.selectService.setSelectedValue(value);
+            //    this.selectService.setSelectedValue(value, false);
         }
     }
 
@@ -113,17 +138,44 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
         this.propagateTouch = fn;
     }
 
+    markSelectionOnPlaceholder(option: Angular2OptionComponent, emit: boolean) {
+        this.selection = {
+            value: option.value,
+            text: option.text
+        };
+        if (emit)
+            this.selectionChanged.emit(option.value);
+    }
+    unselectAllOtherOptions(value: string) {
+        this.options.forEach((option) => {
+            if (option.value != value)
+                option.unselect();
+        });
+    }
+    showSelector() {
+        this.areOptionsVisible = true;
+        this.animateState = 'visible';
+    }
+    hideSelector() {
+        this.animateState = 'hidden';
+        setTimeout(() => { this.areOptionsVisible = false; }, 300);
+    }
+
     onEnter() {
-        this.propagateTouch(this.selectService.getSelectedValue());
-        this.selectService.showSelector();
+        this.propagateTouch(this.selection.value);
+        this.showSelector();
     }
     onClick(event) {
         if (!this.el.nativeElement.contains(event.target))
-            this.selectService.hideSelector();
+            this.hideSelector();
     }
     clear(event) {
         event.stopPropagation();
-        this.selectService.setSelectedValue(null);
-        this.selectService.setSelectedText(null);
+        this.selection = {
+            value: null,
+            text: ''
+        };
+        this.unselectAllOtherOptions('');
+        this.selectionChanged.emit(null);
     }
 }

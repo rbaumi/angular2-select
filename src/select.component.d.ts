@@ -1,19 +1,31 @@
-import { ElementRef, AfterContentInit } from '@angular/core';
+import { EventEmitter, ElementRef, QueryList, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Angular2SelectService } from './select.service';
-export declare class Angular2SelectComponent implements ControlValueAccessor, AfterContentInit {
+import { Angular2OptionComponent } from './option.component';
+export interface Selection {
+    value: string;
+    text: string;
+}
+export declare class Angular2SelectComponent implements ControlValueAccessor, AfterViewInit {
     private el;
-    private selectService;
+    private changeDetectionRef;
     placeholder: string;
     required: boolean;
-    selected: ElementRef;
+    selectionChanged: EventEmitter<string>;
+    options: QueryList<Angular2OptionComponent>;
+    private selection;
+    private areOptionsVisible;
+    private animateState;
     private propagateChange;
     private propagateTouch;
-    constructor(el: ElementRef, selectService: Angular2SelectService);
-    ngAfterContentInit(): void;
-    writeValue(value: any): void;
+    constructor(el: ElementRef, changeDetectionRef: ChangeDetectorRef);
+    ngAfterViewInit(): void;
+    writeValue(value: string): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
+    markSelectionOnPlaceholder(option: Angular2OptionComponent, emit: boolean): void;
+    unselectAllOtherOptions(value: string): void;
+    showSelector(): void;
+    hideSelector(): void;
     onEnter(): void;
     onClick(event: any): void;
     clear(event: any): void;
