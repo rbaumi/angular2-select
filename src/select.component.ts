@@ -7,10 +7,12 @@ import { Component,
     animate,
     forwardRef,
     ElementRef,
+    Renderer,
     ContentChildren,
     QueryList,
     AfterViewInit,
     Input,
+    HostListener,
     Output,
     ChangeDetectorRef }                 from '@angular/core';
 import { ControlValueAccessor,
@@ -31,7 +33,7 @@ export interface Selection {
                 autoComplete="off"
                 readOnly="true"
                 [(ngModel)] = "selection.text"
-                (focus)="onEnter()"
+                (focus)="onEnter($event)"
                 placeholder="{{placeholder}}"
                 required="{{required}}">
             </md-input>
@@ -78,10 +80,7 @@ export interface Selection {
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => Angular2SelectComponent),
         multi: true
-    }],
-    host: {
-        '(document:click)': 'onClick($event)',
-    }
+    }]
 })
 export class Angular2SelectComponent implements ControlValueAccessor, AfterViewInit {
     @Input() placeholder: string;
@@ -106,6 +105,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
 
     constructor(
         private el: ElementRef,
+        private renderer: Renderer,
         private changeDetectionRef: ChangeDetectorRef
     ) { }
 
@@ -115,7 +115,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
                 value => {
                     this.unselectAllOtherOptions(value);
                     this.markSelectionOnPlaceholder(option, true);
-                    this.hideSelector();
+                    this.hideOptions();
                 }
             );
             if (option.selected)
@@ -152,30 +152,59 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
                 option.unselect();
         });
     }
-    showSelector() {
+    showOptions() {
         this.areOptionsVisible = true;
         this.animateState = 'visible';
     }
-    hideSelector() {
+    hideOptions() {
         this.animateState = 'hidden';
         setTimeout(() => { this.areOptionsVisible = false; }, 300);
     }
 
     onEnter() {
+        // when the md-input field get focused than the document is not receiving the click event
+        // (maybe because the md-input stops propagating it)
+        // in this case we have trigger the click event manually on the component
+        // so it will close other open selec boxes as this event is propagated down to document
+        let event = new MouseEvent('click', {bubbles: true});
+        this.renderer.invokeElementMethod(this.el.nativeElement, 'dispatchEvent', [event]);
+
+        // propagate touch event. Part of ControlValueAccessor interface.
         this.propagateTouch(this.selection.value);
-        this.showSelector();
+
+        // open selector options
+        this.showOptions();
     }
+
+    /**
+     * Function binds click event to the document. The options will hide whenever
+     * user click anywhere outside the selector.
+     * TODO: make it as an Input so the default behaviour can be configured
+     * @param event MouseEvent
+     */
+    @HostListener('document:click', ['$event'])
     onClick(event) {
+        // check if the element that was clicked is contained within this component
+        // if not just hide the options
         if (!this.el.nativeElement.contains(event.target))
-            this.hideSelector();
+            this.hideOptions();
     }
+
+    /**
+     * Deselect current selection
+     * @param event MouseEvent
+     */
     clear(event) {
+        // we have to stop propagation to not to open the options when
+        // clear icon is being clicked
         event.stopPropagation();
         this.selection = {
             value: null,
             text: ''
         };
+        // make sure the options are maked ad not active
         this.unselectAllOtherOptions('');
+        // emit the event
         this.selectionChanged.emit(null);
     }
 }
