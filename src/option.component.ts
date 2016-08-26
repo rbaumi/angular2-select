@@ -5,6 +5,7 @@ import { Component,
     AfterViewInit,
     OnInit,
     ElementRef,
+    ChangeDetectorRef,
     ViewChild }                         from '@angular/core';
 
 @Component({
@@ -34,7 +35,7 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
     private isActive: boolean = false;
     public text: string = '';
 
-    constructor() { }
+    constructor(private changeDetectionRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         if (this.selected)
@@ -56,6 +57,9 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
     }
     markAsSelected(emit: boolean) {
         this.isActive = true;
-        this.onSelect.emit(this.value);
+        this.changeDetectionRef.detectChanges();
+        
+        if (emit)
+            this.onSelect.emit(this.value);
     }
 }

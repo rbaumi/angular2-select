@@ -1,5 +1,6 @@
-import { EventEmitter, AfterViewInit, OnInit, ElementRef } from '@angular/core';
+import { EventEmitter, AfterViewInit, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 export declare class Angular2OptionComponent implements OnInit, AfterViewInit {
+    private changeDetectionRef;
     value: string;
     disabled: boolean;
     selected: boolean;
@@ -7,7 +8,7 @@ export declare class Angular2OptionComponent implements OnInit, AfterViewInit {
     DOMContent: ElementRef;
     private isActive;
     text: string;
-    constructor();
+    constructor(changeDetectionRef: ChangeDetectorRef);
     ngOnInit(): void;
     ngAfterViewInit(): void;
     unselect(): void;

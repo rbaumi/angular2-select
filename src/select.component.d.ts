@@ -20,6 +20,7 @@ export declare class Angular2SelectComponent implements ControlValueAccessor, Af
     private propagateTouch;
     constructor(el: ElementRef, renderer: Renderer, changeDetectionRef: ChangeDetectorRef);
     ngAfterViewInit(): void;
+    selectOption(value: string): void;
     writeValue(value: string): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;

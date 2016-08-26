@@ -119,14 +119,37 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
                 }
             );
             if (option.selected)
-                this.markSelectionOnPlaceholder(option, false);
+                this.selection.value = option.value;
         });
+
+        // now we can setup text property.
+        // we could do this above when looping through options and finding selected one,
+        // but it will work only in case we have a property selected in option.
+        // in case we use selector in form and set data for it using [(ngModel)]
+        // we ahve only value of selection (function writeValue is called before the view is initiaded).
+        this.selectOption(this.selection.value)
         this.changeDetectionRef.detectChanges();
+    }
+
+    selectOption(value: string) {
+        // options is undefined when called before view is initiaded
+        // which is the first call of writeValue
+        if (typeof this.options == 'undefined')
+            this.selection.value = value;
+        else {
+            let option = this.options.filter(opt => {
+                return opt.value == value;
+            });
+            if (option && option.length) {
+                option[0].markAsSelected(false);
+                this.selection.text = option[0].text;
+            }
+        }
     }
 
     writeValue(value: string) {
         if (value !== undefined) {
-            //    this.selectService.setSelectedValue(value, false);
+            this.selection.value = value;
         }
     }
 
