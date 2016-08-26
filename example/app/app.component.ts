@@ -17,6 +17,9 @@ import { FormGroup,
             bottom:0;
             padding:40px;
         }
+        div.error {
+            color: red;
+        }
     `],
     template: `
     <div>
@@ -44,6 +47,9 @@ import { FormGroup,
                     <bm-ng2-option value="WANDA">Wanda</bm-ng2-option>
                 </bm-ng2-select>
             </form>
+            <div class="error">
+                This field is required
+            </div>
         </div>
         <div class="notifications">
             Notifications: {{ message }}

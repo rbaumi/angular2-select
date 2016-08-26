@@ -12,6 +12,7 @@ export declare class Angular2SelectComponent implements ControlValueAccessor, Af
     placeholder: string;
     required: boolean;
     selectionChanged: EventEmitter<string>;
+    internalInput: any;
     options: QueryList<Angular2OptionComponent>;
     private selection;
     private areOptionsVisible;
@@ -31,4 +32,5 @@ export declare class Angular2SelectComponent implements ControlValueAccessor, Af
     onEnter(): void;
     onClick(event: any): void;
     clear(event: any): void;
+    open(event: any): void;
 }

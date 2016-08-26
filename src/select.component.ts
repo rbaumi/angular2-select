@@ -9,6 +9,7 @@ import { Component,
     ElementRef,
     Renderer,
     ContentChildren,
+    ViewChild,
     QueryList,
     AfterViewInit,
     Input,
@@ -30,6 +31,7 @@ export interface Selection {
     template: `
         <div class="bm-ng2-select-container">
             <md-input
+                #internalInput
                 autoComplete="off"
                 readOnly="true"
                 [(ngModel)] = "selection.text"
@@ -46,7 +48,8 @@ export interface Selection {
             <md-icon
                 *ngIf="required && selection.value"
                 fontSet="fa"
-                fontIcon="fa-caret-down">
+                fontIcon="fa-caret-down"
+                (click)="open($event)">
             </md-icon>
             <div class="options"
                 [hidden]="!areOptionsVisible"
@@ -86,7 +89,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     @Input() placeholder: string;
     @Input() required: boolean = false;
     @Output() selectionChanged: EventEmitter<string> = new EventEmitter();
-
+    @ViewChild('internalInput') internalInput;
     @ContentChildren(Angular2OptionComponent) options: QueryList<Angular2OptionComponent>;
 
     private selection: Selection = {
@@ -229,5 +232,14 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         this.unselectAllOtherOptions('');
         // emit the event
         this.selectionChanged.emit(null);
+    }
+
+    /**
+     * Opend options
+     * @param event MouseEvent
+     */
+    open(event) {
+        event.stopPropagation();
+        this.internalInput.focus();
     }
 }
