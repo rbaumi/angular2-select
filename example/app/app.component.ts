@@ -1,5 +1,5 @@
 import { Component,
-    OnInit }                            from '@angular/core';
+         OnInit }                       from '@angular/core';
 import { FormGroup,
          FormControl,
          Validators }                   from '@angular/forms';
@@ -36,18 +36,20 @@ import { FormGroup,
             </bm-ng2-select>
         </div>
         <div class="selector-container">
-            <form [formGroup]="demoForm" >
+            <form [formGroup]="demoForm" #f="ngForm">
                 <h4>As formControl element:</h4>
                 <bm-ng2-select
                     formControlName="person"
                     placeholder="Select person"
+                    required=true
+                    #person
                     (selectionChanged)="onSelectionChange('Name', $event);">
                     <bm-ng2-option value="ANNA">Anna</bm-ng2-option>
-                    <bm-ng2-option value="ROMAN">Roman</bm-ng2-option>
-                    <bm-ng2-option value="WANDA">Wanda</bm-ng2-option>
+                    <bm-ng2-option value="NATALIA">Natalia</bm-ng2-option>
+                    <bm-ng2-option value="KASIA">Kasia</bm-ng2-option>
                 </bm-ng2-select>
             </form>
-            <div class="error">
+            <div class="error" *ngIf="!demoForm.controls.person.valid">
                 This field is required
             </div>
         </div>
@@ -67,9 +69,8 @@ export class AppComponent implements OnInit {
     }
     ngOnInit() {
         this.demoForm = new FormGroup({
-            person: new FormControl('WANDA', [
-                Validators.required
-            ])
+            person: new FormControl(''),
+            person2: new FormControl('')
         });
     }
 

@@ -58,7 +58,7 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
     markAsSelected(emit: boolean) {
         this.isActive = true;
         this.changeDetectionRef.detectChanges();
-        
+
         if (emit)
             this.onSelect.emit(this.value);
     }

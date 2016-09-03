@@ -18,6 +18,9 @@ import { Component,
     ChangeDetectorRef }                 from '@angular/core';
 import { ControlValueAccessor,
     NG_VALUE_ACCESSOR }                 from '@angular/forms';
+import { FormGroup,
+    FormControl,
+    Validators }                        from '@angular/forms';
 import { Angular2OptionComponent }      from './option.component';
 
 export interface Selection {
@@ -88,6 +91,7 @@ export interface Selection {
 export class Angular2SelectComponent implements ControlValueAccessor, AfterViewInit {
     @Input() placeholder: string;
     @Input() required: boolean = false;
+
     @Output() selectionChanged: EventEmitter<string> = new EventEmitter();
     @ViewChild('internalInput') internalInput;
     @ContentChildren(Angular2OptionComponent) options: QueryList<Angular2OptionComponent>;
@@ -135,6 +139,8 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     }
 
     selectOption(value: string) {
+        this.propagateChange(value);
+
         // options is undefined when called before view is initiaded
         // which is the first call of writeValue
         if (typeof this.options == 'undefined')
@@ -153,6 +159,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     writeValue(value: string) {
         if (value !== undefined) {
             this.selection.value = value;
+            this.propagateChange(value);
         }
     }
 
@@ -169,8 +176,10 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
             value: option.value,
             text: option.text
         };
-        if (emit)
+        if (emit) {
+            this.propagateChange(option.value);
             this.selectionChanged.emit(option.value);
+        }
     }
     unselectAllOtherOptions(value: string) {
         this.options.forEach((option) => {
@@ -196,7 +205,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         this.renderer.invokeElementMethod(this.el.nativeElement, 'dispatchEvent', [event]);
 
         // propagate touch event. Part of ControlValueAccessor interface.
-        this.propagateTouch(this.selection.value);
+        this.propagateTouch(true);
 
         // open selector options
         this.showOptions();
@@ -231,6 +240,8 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         // make sure the options are maked ad not active
         this.unselectAllOtherOptions('');
         // emit the event
+
+        this.propagateChange(null);
         this.selectionChanged.emit(null);
     }
 
