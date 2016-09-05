@@ -1,6 +1,7 @@
 node_modules/
 *.js
 *.map
+example/
 
 !make.js
 !systemjs.config.js
