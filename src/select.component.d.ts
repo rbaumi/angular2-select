@@ -20,17 +20,16 @@ export declare class Angular2SelectComponent implements ControlValueAccessor, Af
     private propagateChange;
     private propagateTouch;
     constructor(el: ElementRef, renderer: Renderer, changeDetectionRef: ChangeDetectorRef);
+    onClick(event: any): void;
     ngAfterViewInit(): void;
-    selectOption(value: string): void;
     writeValue(value: string): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
-    markSelectionOnPlaceholder(option: Angular2OptionComponent, emit: boolean): void;
-    unselectAllOtherOptions(value: string): void;
-    showOptions(): void;
-    hideOptions(): void;
-    onEnter(): void;
-    onClick(event: any): void;
-    clear(event: any): void;
-    open(event: any): void;
+    private _markOptionAsSelected(value);
+    private _markSelectionOnPlaceholder(option);
+    private _unselectAllOtherOptions(value);
+    private _hideOptions();
+    private _onEnter();
+    private _clear(event);
+    private _open(event);
 }

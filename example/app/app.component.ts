@@ -36,13 +36,12 @@ import { FormGroup,
             </bm-ng2-select>
         </div>
         <div class="selector-container">
-            <form [formGroup]="demoForm" #f="ngForm">
+            <form [formGroup]="demoForm">
                 <h4>As formControl element:</h4>
                 <bm-ng2-select
                     formControlName="person"
                     placeholder="Select person"
                     required=true
-                    #person
                     (selectionChanged)="onSelectionChange('Name', $event);">
                     <bm-ng2-option value="ANNA">Anna</bm-ng2-option>
                     <bm-ng2-option value="NATALIA">Natalia</bm-ng2-option>
@@ -69,8 +68,7 @@ export class AppComponent implements OnInit {
     }
     ngOnInit() {
         this.demoForm = new FormGroup({
-            person: new FormControl(''),
-            person2: new FormControl('')
+            person: new FormControl('NATALIA')
         });
     }
 

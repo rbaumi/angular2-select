@@ -38,7 +38,7 @@ export interface Selection {
                 autoComplete="off"
                 readOnly="true"
                 [(ngModel)] = "selection.text"
-                (focus)="onEnter($event)"
+                (focus)="_onEnter($event)"
                 placeholder="{{placeholder}}"
                 required="{{required}}">
             </md-input>
@@ -46,13 +46,13 @@ export interface Selection {
                 *ngIf="!required && selection.value"
                 fontSet="fa"
                 fontIcon="fa-times"
-                (click)="clear($event)">
+                (click)="_clear($event)">
             </md-icon>
             <md-icon
                 *ngIf="required && selection.value"
                 fontSet="fa"
                 fontIcon="fa-caret-down"
-                (click)="open($event)">
+                (click)="_open($event)">
             </md-icon>
             <div class="options"
                 [hidden]="!areOptionsVisible"
@@ -103,7 +103,6 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     private areOptionsVisible: boolean = false;
     private animateState: string = 'hidden';
 
-
     // to propagate change event to external form
     private propagateChange = (_: any) => { };
 
@@ -116,31 +115,73 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         private changeDetectionRef: ChangeDetectorRef
     ) { }
 
+    /**
+     * Function binds click event to the document. The options will hide whenever
+     * user click anywhere outside the selector.
+     * TODO: make it as an @Input() so the default behaviour can be configured
+     * @param event MouseEvent
+     */
+    @HostListener('document:click', ['$event'])
+    onClick(event) {
+        // check if the element that was clicked is contained within this component
+        // if not just hide the options
+        if (!this.el.nativeElement.contains(event.target))
+            this._hideOptions();
+    }
+
     ngAfterViewInit() {
-        this.options.forEach((option) => {
-            option.onSelect.subscribe(
-                value => {
-                    this.unselectAllOtherOptions(value);
-                    this.markSelectionOnPlaceholder(option, true);
-                    this.hideOptions();
-                }
-            );
-            if (option.selected)
-                this.selection.value = option.value;
-        });
+        // at this point value can be set because the formControl value writing
+        if (!this.selection.value)
+            this.options.forEach((option) => {
+                option.onSelect.subscribe(
+                    value => {
+                        this._unselectAllOtherOptions(value);
+                        this._markSelectionOnPlaceholder(option);
+                        this._hideOptions();
+                    }
+                );
+                if (option.selected)
+                    this.selection.value = option.value;
+            });
 
         // now we can setup text property.
         // we could do this above when looping through options and finding selected one,
         // but it will work only in case we have a property selected in option.
         // in case we use selector in form and set data for it using [(ngModel)]
         // we ahve only value of selection (function writeValue is called before the view is initiaded).
-        this.selectOption(this.selection.value)
+        this._markOptionAsSelected(this.selection.value)
         this.changeDetectionRef.detectChanges();
     }
 
-    selectOption(value: string) {
-        this.propagateChange(value);
+    /**
+     * Implementation of ControlValueAccessor interface
+     */
+    writeValue(value: string) {
+        if (value !== undefined) {
+            this.selection.value = value;
+            this.propagateChange(value);
+        }
+    }
 
+    /**
+     * Implementation of ControlValueAccessor interface
+     */
+    registerOnChange(fn) {
+        this.propagateChange = fn;
+    }
+
+    /**
+     * Implementation of ControlValueAccessor interface
+     */
+    registerOnTouched(fn) {
+        this.propagateTouch = fn;
+    }
+
+    /**
+     * Function looks for specific bm-ng2-option element and mark it as active
+     * @param value string value of bm-ng2-option element to be selected
+     */
+    private _markOptionAsSelected(value: string) {
         // options is undefined when called before view is initiaded
         // which is the first call of writeValue
         if (typeof this.options == 'undefined')
@@ -156,47 +197,44 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         }
     }
 
-    writeValue(value: string) {
-        if (value !== undefined) {
-            this.selection.value = value;
-            this.propagateChange(value);
-        }
-    }
-
-    registerOnChange(fn) {
-        this.propagateChange = fn;
-    }
-
-    registerOnTouched(fn) {
-        this.propagateTouch = fn;
-    }
-
-    markSelectionOnPlaceholder(option: Angular2OptionComponent, emit: boolean) {
+    /**
+     * Function sets the value of select placeholder. It is called after bm-ng2-option is being clicked.
+     * @param option Angular2OptionComponent clicked bm-ng2-option
+     */
+    private _markSelectionOnPlaceholder(option: Angular2OptionComponent) {
         this.selection = {
             value: option.value,
             text: option.text
         };
-        if (emit) {
-            this.propagateChange(option.value);
-            this.selectionChanged.emit(option.value);
-        }
+
+        this.propagateChange(option.value);
+        this.selectionChanged.emit(option.value);
     }
-    unselectAllOtherOptions(value: string) {
+
+    /**
+     * Function loops through all bm-ng2-options and deselects them
+     * @param value string value of bm-ng2-option element not to be changed
+     */
+    private _unselectAllOtherOptions(value: string) {
         this.options.forEach((option) => {
             if (option.value != value)
                 option.unselect();
         });
     }
-    showOptions() {
-        this.areOptionsVisible = true;
-        this.animateState = 'visible';
-    }
-    hideOptions() {
+
+
+    /**
+     * Close selector
+     */
+    private _hideOptions() {
         this.animateState = 'hidden';
         setTimeout(() => { this.areOptionsVisible = false; }, 300);
     }
 
-    onEnter() {
+    /**
+     * Function that is triggered when md-input is focused
+     */
+    private _onEnter() {
         // when the md-input field get focused than the document is not receiving the click event
         // (maybe because the md-input stops propagating it)
         // in this case we have trigger the click event manually on the component
@@ -208,28 +246,15 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         this.propagateTouch(true);
 
         // open selector options
-        this.showOptions();
-    }
-
-    /**
-     * Function binds click event to the document. The options will hide whenever
-     * user click anywhere outside the selector.
-     * TODO: make it as an Input so the default behaviour can be configured
-     * @param event MouseEvent
-     */
-    @HostListener('document:click', ['$event'])
-    onClick(event) {
-        // check if the element that was clicked is contained within this component
-        // if not just hide the options
-        if (!this.el.nativeElement.contains(event.target))
-            this.hideOptions();
+        this.areOptionsVisible = true;
+        this.animateState = 'visible';
     }
 
     /**
      * Deselect current selection
      * @param event MouseEvent
      */
-    clear(event) {
+    private _clear(event) {
         // we have to stop propagation to not to open the options when
         // clear icon is being clicked
         event.stopPropagation();
@@ -238,7 +263,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
             text: ''
         };
         // make sure the options are maked ad not active
-        this.unselectAllOtherOptions('');
+        this._unselectAllOtherOptions('');
         // emit the event
 
         this.propagateChange(null);
@@ -246,10 +271,10 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     }
 
     /**
-     * Opend options
+     * Opens options after the arrow icon is being clicked
      * @param event MouseEvent
      */
-    open(event) {
+    private _open(event) {
         event.stopPropagation();
         this.internalInput.focus();
     }

@@ -12,6 +12,6 @@ export declare class Angular2OptionComponent implements OnInit, AfterViewInit {
     ngOnInit(): void;
     ngAfterViewInit(): void;
     unselect(): void;
-    select(event: any): void;
+    private _select(event);
     markAsSelected(emit: boolean): void;
 }

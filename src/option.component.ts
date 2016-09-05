@@ -12,7 +12,7 @@ import { Component,
     moduleId: module.id,
     selector: 'bm-ng2-option',
     template: `
-        <li (click)="select($event)"
+        <li (click)="_select($event)"
             [class.disabled]="disabled"
             [class.active]="isActive">
             <div class="inner" #contentWrapper>
@@ -24,6 +24,7 @@ import { Component,
         'option.styles.min.css'
     ]
 })
+
 export class Angular2OptionComponent implements OnInit, AfterViewInit {
     @Input() value: string;
     @Input() disabled: boolean = false;
@@ -41,13 +42,23 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
         if (this.selected)
             this.markAsSelected(false);
     }
+
     ngAfterViewInit() {
+        // get the text of this element
         this.text = this.DOMContent.nativeElement.innerHTML.trim();
     }
+    /**
+     * Mark this element as not selected.
+     * Function is called from select.component
+     */
     unselect() {
         this.isActive = false;
     }
-    select(event) {
+
+    /**
+     * select this element.
+     */
+    private _select(event) {
         event.stopPropagation();
 
         if (this.disabled)
@@ -55,6 +66,10 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
 
         this.markAsSelected(true);
     }
+
+    /**
+     * Mark this option as selected..
+     */
     markAsSelected(emit: boolean) {
         this.isActive = true;
         this.changeDetectionRef.detectChanges();
