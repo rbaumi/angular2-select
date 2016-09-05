@@ -1,7 +1,0 @@
-*.js
-*.map
-*.d.ts
-index-dev.html
-node-modules/
-
-!systemjs.config.js
