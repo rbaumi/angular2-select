@@ -1,4 +1,8 @@
-import { NgModule }                     from "@angular/core";
+/// <reference path="../typings/index.d.ts" />
+
+import { NgModule,
+         ModuleWithProviders}           from '@angular/core';
+import { CommonModule }                 from '@angular/common';
 import { BrowserModule }                from '@angular/platform-browser';
 import { HttpModule }                   from '@angular/http';
 import { FormsModule,
@@ -9,15 +13,13 @@ import { MdCardModule }                 from '@angular2-material/card';
 import { MdInputModule }                from '@angular2-material/input';
 import { MdIconModule }                 from '@angular2-material/icon';
 
-import { Angular2SelectComponent }      from './src/select.component';
-import { Angular2OptionComponent }      from './src/option.component';
-
-export * from "./src/select.component";
-export * from "./src/option.component";
+import { Angular2SelectComponent }      from './select.component';
+import { Angular2OptionComponent }      from './option.component';
 
 @NgModule({
     imports: [
         BrowserModule,
+        CommonModule,
         HttpModule,
         MdRippleModule,
         MdCardModule,
@@ -32,9 +34,14 @@ export * from "./src/option.component";
     ],
     exports: [
         Angular2SelectComponent,
-        Angular2OptionComponent
+        Angular2OptionComponent,
+        CommonModule
     ]
 })
 export class Angular2SelectModule {
-
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: Angular2SelectModule
+        };
+    }
 }

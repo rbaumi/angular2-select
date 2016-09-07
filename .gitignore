@@ -1,5 +1,6 @@
-node_modules/
-example/
-*.js
-!make.js
-!systemjs.config.js
+npm-debug.log
+node_modules
+lib
+build
+typings
+bundle
