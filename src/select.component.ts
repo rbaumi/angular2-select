@@ -29,14 +29,13 @@ export interface Selection {
 }
 
 @Component({
-    moduleId: module.id,
     selector: 'bm-ng2-select',
     template: `
         <div class="bm-ng2-select-container">
             <md-input
                 #internalInput
                 autoComplete="off"
-                readOnly="true"
+                readonly="true"
                 [(ngModel)] = "selection.text"
                 (focus)="_onEnter($event)"
                 placeholder="{{placeholder}}"

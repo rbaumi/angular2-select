@@ -9,7 +9,6 @@ import { Component,
     ViewChild }                         from '@angular/core';
 
 @Component({
-    moduleId: module.id,
     selector: 'bm-ng2-option',
     template: `
         <li (click)="_select($event)"
@@ -21,7 +20,7 @@ import { Component,
         </li>
     `,
     styleUrls: [
-        'option.styles.min.css'
+        './option.styles.min.css'
     ]
 })
 
@@ -47,6 +46,7 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
         // get the text of this element
         this.text = this.DOMContent.nativeElement.innerHTML.trim();
     }
+
     /**
      * Mark this element as not selected.
      * Function is called from select.component
