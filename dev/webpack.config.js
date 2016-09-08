@@ -13,8 +13,12 @@ module.exports = {
     devtool: 'source-map',
     module: {
         loaders: [{
-            test: /\.(js|jsx)$/,
+            test: /\.js$/,
             loader: 'babel-loader',
+            exclude: /node_modules/
+        }, {
+            test: /\.ts$/,
+            loader: 'awesome-typescript-loader',
             exclude: /node_modules/
         }]
     },

@@ -1,9 +1,8 @@
 {
   "scripts": {
     "postinstall": "$(npm bin)/typings install",
-    "tsc": "$(npm bin)/tsc -w",
-    "build": "$(npm bin)/webpack",
-    "start": "concurrently \"npm run tsc\" \"npm run build\""
+    "tsc": "$(npm bin)/tsc",
+    "start": "$(npm bin)/webpack"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.6",

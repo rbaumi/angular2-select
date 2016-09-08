@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11,9 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
-var forms_1 = require('@angular/forms');
 var app_component_1 = require("./app.component");
-var angular2_select_module_1 = require("../../lib/angular2-select.module");
+var angular2_select_1 = require("../../angular2-select");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -21,9 +19,10 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                forms_1.FormsModule,
-                forms_1.ReactiveFormsModule,
-                angular2_select_module_1.Angular2SelectModule
+                angular2_select_1.Angular2SelectModule
+            ],
+            exports: [
+                angular2_select_1.Angular2SelectModule
             ],
             declarations: [app_component_1.AppComponent],
             bootstrap: [app_component_1.AppComponent]
