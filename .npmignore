@@ -1,7 +1,7 @@
-examples
-node_modules
-src
-typings
-typings.json
-webpack.config.js
-dev
+/examples/
+/node_modules/
+/src/
+/typings/
+/typings.json
+/tsconfig.json
+/webpack.config.js

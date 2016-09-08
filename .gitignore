@@ -1,6 +1,6 @@
-npm-debug.log
-node_modules
-lib
-build
-typings
-bundle
+/typings/
+/lib/
+/node_modules/
+/src/npm-debug.log
+/npm-debug.log
+/typings/

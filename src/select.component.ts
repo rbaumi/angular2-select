@@ -163,19 +163,17 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
     }
 
     ngAfterViewInit() {
-        // at this point value can be set because the formControl value writing
-        if (!this.selection.value)
-            this.options.forEach((option) => {
-                option.onSelect.subscribe(
-                    value => {
-                        this._unselectAllOtherOptions(value);
-                        this._markSelectionOnPlaceholder(option);
-                        this._hideOptions();
-                    }
-                );
-                if (option.selected)
-                    this.selection.value = option.value;
-            });
+        this.options.forEach((option) => {
+            option.onSelect.subscribe(
+                value => {
+                    this._unselectAllOtherOptions(value);
+                    this._markSelectionOnPlaceholder(option);
+                    this._hideOptions();
+                }
+            );
+            if (option.selected)
+                this.selection.value = option.value;
+        });
 
         // now we can setup text property.
         // we could do this above when looping through options and finding selected one,

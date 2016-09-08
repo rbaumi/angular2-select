@@ -3,14 +3,13 @@ import { NgModule }                     from "@angular/core";
 import { FormsModule,
          ReactiveFormsModule }          from '@angular/forms';
 import { AppComponent }                 from "./app.component";
-import { Angular2SelectModule }         from "../../angular2-select";
+import { Angular2SelectModule }         from "../../../src/angular2-select.module";
 
 @NgModule({
     imports: [
         BrowserModule,
-        Angular2SelectModule
-    ],
-    exports: [
+        FormsModule,
+        ReactiveFormsModule,
         Angular2SelectModule
     ],
     declarations: [ AppComponent ],
