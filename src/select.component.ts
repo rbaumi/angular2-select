@@ -48,7 +48,7 @@ export interface Selection {
                 (click)="_clear($event)">
             </md-icon>
             <md-icon
-                *ngIf="required && selection.value"
+                *ngIf="required || !selection.value"
                 fontSet="fa"
                 fontIcon="fa-caret-down"
                 (click)="_open($event)">
