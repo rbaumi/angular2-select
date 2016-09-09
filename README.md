@@ -2,6 +2,8 @@
 
 Select box input module for Angular2 using Material Design. Based on [official angular2-seed](https://github.com/angular/angular2-seed).
 
+See [demo plunker](https://embed.plnkr.co/uIMv76/).
+
 ![alt tag](https://s12.postimg.org/abgma5619/baumi_angular2_select.png)
 
 ### Dependencies
