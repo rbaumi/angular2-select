@@ -1,0 +1,7 @@
+<div class="alerts-info" *ngIf="false">
+    <alert *ngFor="let info of getApplicationInfo()" [type]="info.type" dismissOnTimeout="2000">
+        <md-icon *ngIf="info.icon" fontSet="fa" fontIcon="{{ info.icon }}"></md-icon>
+        <div>{{ info?.msg | translate }}</div>
+    </alert>
+</div>
+<router-outlet></router-outlet>

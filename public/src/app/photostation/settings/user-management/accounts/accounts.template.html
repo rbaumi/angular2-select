@@ -1,0 +1,70 @@
+<md-toolbar [color]="primary" [@showToolbarState]="menuToolbarState" >
+    <a>
+        <md-icon
+            fontSet="fa"
+            fontIcon="fa-plus">
+        </md-icon>
+        Create new account
+    </a>
+</md-toolbar>
+<div class="report-content">
+    <md-input
+        autoComplete="off"
+        [(ngModel)]="filterAccountName"
+        (keyup)="changeFilterAccountName($event)"
+        placeholder="{{ 'SEARCH_BY_NAME' | translate }}">
+    </md-input>
+
+    <bm-ng2-select
+        placeholder="{{ 'SEARCH_BY_ROLE' | translate }}"
+        (selectionChanged)="changeFilterRole($event);">
+        <bm-ng2-option *ngFor="let role of getRoles()" value="{{role.id}}">{{role.presentedName}}</bm-ng2-option>
+    </bm-ng2-select>
+
+    <div class="container-fluid">
+        <loading [isVisible]="isUserListLoading"></loading>
+
+        <div class="row" *ngIf="!isUserListLoading">
+            <md-grid-list cols="3" rowHeight="75px">
+                <md-grid-tile *ngFor="let account of getAccounts()">
+                    <md-card
+                        [@showAccountState]="account.animShow"
+                        (mouseenter)="account.hovered=true"
+                        (mouseleave)="account.hovered=false"
+                        [class.hovered]="account.hovered"
+                        (click)="selectAccount(account)">
+
+                        <md-card-content>
+                            <img src="{{ account.avatar }}" class="avatar" draggable="false">
+                            <div class="ripple-container">
+                                <div class="row" md-ripple>
+                                    <div class="name align-left">
+                                        {{account.name}}
+                                    </div>
+                                    <div class="last-active align-left">
+                                        {{'LAST_ACTIVE' | translate}}: {{account.lastActive.date | date:'d MMM y, H:mm'}}
+                                    </div>
+                                </div>
+                                <div
+                                    class="active-status"
+                                    [class.active]="account.isActive"
+                                    [class.not-active]="!account.isActive">
+                                    <md-icon
+                                        *ngIf="account.isActive"
+                                        fontSet="fa"
+                                        fontIcon="fa-check">
+                                    </md-icon>
+                                    <md-icon
+                                        *ngIf="!account.isActive"
+                                        fontSet="fa"
+                                        fontIcon="fa-times">
+                                    </md-icon>
+                                </div>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </md-grid-tile>
+            </md-grid-list>
+        </div>
+    </div>
+</div>

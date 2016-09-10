@@ -24,7 +24,7 @@ See [demo plunker](https://embed.plnkr.co/uIMv76/).
 Import module:
 
 ```ts
-import { Angular2SelectModule } from 'angular2-select/angular2-select';
+import { Angular2SelectModule } from '@baumi/angular2-select';
 ...
 @NgModule({
     imports: [

@@ -1,0 +1,10 @@
+<md-nav-list>
+    <div *ngFor="let menuItem of menuItems" class="{{ menuItem.class }} outer-container" [class.menu-item]="!menuItem.isDivider">
+        <md-list-item *ngIf="!menuItem.isDivider" [routerLink]="[menuItem.route]" md-ripple >
+                <md-icon md-list-avatar fontSet="fa" fontIcon="{{ menuItem.icon }}"></md-icon>
+                <h4 md-line>{{ menuItem.i18n | translate }}</h4>
+                <p md-line>{{ menuItem.description }}</p>
+        </md-list-item>
+        <md-divider *ngIf="menuItem.isDivider"></md-divider>
+    </div>
+</md-nav-list>

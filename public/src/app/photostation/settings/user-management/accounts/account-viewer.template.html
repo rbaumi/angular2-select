@@ -1,0 +1,158 @@
+<loading [isVisible]="isViewerLoading"></loading>
+<div class="container" *ngIf="!isViewerLoading" [@animateState]="animateState">
+    <div class="avatar">
+        <img src="{{ account.avatar }}" draggable="false">
+    </div>
+    <div class="viewer-body">
+        <md-tab-group class="full-page with-vertical-padding">
+            <md-tab>
+                <template md-tab-label>
+                    <md-icon fontSet="fa" fontIcon="fa-user" class="tab-header">
+                    </md-icon>
+                    {{ 'GENERAL' | translate }}
+                </template>
+                <template md-tab-content>
+                    <md-grid-list cols="2" rowHeight="fit">
+                        <md-grid-tile>
+                            <form [formGroup]="accountBasicPropertyForm">
+                                <md-input
+                                    formControlName="name"
+                                    [(ngModel)]="account.name"
+                                    autoComplete="off"
+                                    placeholder="{{ 'USER_FULL_NAME' | translate }}">
+                                </md-input>
+                                <autocomplete
+                                    formControlName="gender"
+                                    [(ngModel)]="account.gender"
+                                    itemText="text"
+                                    itemValue="value"
+                                    placeholder="{{ 'GENDER' | translate }}"
+                                    [matches]="genders"
+                                    readonly=true
+                                    forceMatch=true>
+                                </autocomplete>
+                                <!-- <md-date-time-picker
+                                    formControlName="birthday"
+                                    [(ngModel)]="account.birthday"
+                                    placeholder="{{ 'DATE_OF_BIRTH' | translate }}"
+                                ></md-date-time-picker> -->
+                                <md-input
+                                    formControlName="email"
+                                    [(ngModel)]="account.email"
+                                    autoComplete="off"
+                                    placeholder="{{ 'EMAIL' | translate }}">
+                                </md-input>
+                                <md-input
+                                    formControlName="phone"
+                                    [(ngModel)]="account.phone"
+                                    autoComplete="off"
+                                    placeholder="{{ 'PHONE' | translate }}">
+                                </md-input>
+                            </form>
+                        </md-grid-tile>
+                        <md-grid-tile>
+                            <file-uploader
+                                [style]="trustedAvatarBackgroundStyle"
+                                [allowedMimeTypes]="[
+                                    'image/png',
+                                    'image/jpeg',
+                                    'image/jpg'
+                                ]"
+                                (onError)="avatarUploadError($event)"
+                                (onComplete)="avatarUploaded($event)"
+                                [uploadURL]="uploadURL"
+                            ></file-uploader>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </template>
+            </md-tab>
+            <md-tab>
+                <template md-tab-label>
+                    <md-icon fontSet="fa" fontIcon="fa-map-marker" class="tab-header">
+                    </md-icon>
+                    {{ 'ADDRESS' | translate }}
+                </template>
+                <template md-tab-content>
+                    <md-grid-list cols="2" rowHeight="fit">
+                        <md-grid-tile>
+                            <form [formGroup]="accountAddressForm">
+                                <md-input
+                                    formControlName="street"
+                                    [(ngModel)]="account.address.street"
+                                    autoComplete="off"
+                                    placeholder="{{ 'STREET1' | translate }}">
+                                </md-input>
+                                <md-input
+                                    formControlName="cityZip"
+                                    [(ngModel)]="account.address.cityZip"
+                                    autoComplete="off"
+                                    placeholder="{{ 'CITY_ZIPCODE' | translate }}">
+                                </md-input>
+                                <md-input
+                                    formControlName="stateProvince"
+                                    [(ngModel)]="account.address.stateProvince"
+                                    autoComplete="off"
+                                    placeholder="{{ 'STATE_PROVINCE' | translate }}">
+                                </md-input>
+                                <md-input
+                                    formControlName="country"
+                                    [(ngModel)]="account.address.country"
+                                    autoComplete="off"
+                                    placeholder="{{ 'COUNTRY' | translate }}">
+                                </md-input>
+                            </form>
+                            <md-checkbox [(ngModel)]="allowForPickingAddressFromMap">
+                                {{ 'ALLOW_FOR_PICKING_ADDRESS_FROM_MAP' | translate }}
+                            </md-checkbox>
+                        </md-grid-tile>
+                        <md-grid-tile>
+                            <sebm-google-map
+                                [latitude]="mapSettings.mapPosition.lat"
+                                [longitude]="mapSettings.mapPosition.lng"
+                                [(zoom)]="mapSettings.zoomLevel"
+                                (mapClick)="mapClicked($event)"
+                                (centerChange)="centerChange($event)">
+
+                                <sebm-google-map-marker
+                                    *ngIf="mapSettings.showMarker"
+                                    [latitude]="mapSettings.marker.lat"
+                                    [longitude]="mapSettings.marker.lng"
+                                    [markerDraggable]="allowForPickingAddressFromMap"
+                                    (dragEnd)="markerDragEnd($event)">
+                                </sebm-google-map-marker>
+                            </sebm-google-map>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </template>
+            </md-tab>
+            <md-tab>
+                <template md-tab-label>
+                    <md-icon fontSet="fa" fontIcon="fa-shield" class="tab-header">
+                    </md-icon>
+                    {{ 'PERMISSIONS' | translate }}
+                </template>
+                <template md-tab-content>
+                    ccc
+                </template>
+            </md-tab>
+            <md-tab>
+                <template md-tab-label>
+                    <md-icon fontSet="fa" fontIcon="fa-pencil-square-o" class="tab-header">
+                    </md-icon>
+                    {{ 'USER_LOGS' | translate }}
+                </template>
+                <template md-tab-content>
+                    ccc
+                </template>
+            </md-tab>
+        </md-tab-group>
+    </div>
+    <md-toolbar>
+        <span>{{ account.name }}</span>
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="fill-remaining-space"></span>
+        <button md-button [routerLink]="['/photostation/settings/user-management']">{{ 'CLOSE' | translate }}</button>
+        <md-progress-bar *ngIf="isViewerUpdating" mode="indeterminate"></md-progress-bar>
+    </md-toolbar>
+</div>

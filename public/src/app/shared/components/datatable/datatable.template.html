@@ -1,0 +1,17 @@
+<table>
+    <thead>
+        <tr>
+            <th  *ngFor="let column of columns" [style]="column.safeStylesHead">
+                {{ column.text }}
+                <md-icon fontSet="fa" fontIcon="fa-caret-down" *ngIf="column.sortable"></md-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let d of data">
+            <td *ngFor="let column of columns;" [style]="column.safeStylesBody" >
+                {{ d[column.index] }}
+            </td>
+        </tr>
+    </tbody>
+</table>

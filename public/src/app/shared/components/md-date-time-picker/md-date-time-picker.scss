@@ -1,0 +1,39 @@
+:host {
+    position: relative;
+    cursor: pointer;
+}
+div.overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 15;
+    cursor: default;
+    background: black;
+    opacity: .7;
+}
+md-input {
+    width: 100%;
+    cursor: pointer;
+    /deep/ input {
+        cursor: pointer !important;
+    }
+}
+md-icon {
+    position: absolute;
+    right: 10px;
+    top: -20px;
+    display: block;
+    color: #517F85;
+}
+/deep/ .mddtp-picker__body .mddtp-picker__viewHolder .mddtp-picker__grid .mddtp-picker__tr span.mddtp-picker__cell:hover,
+/deep/ .mddtp-picker__body .mddtp-picker__viewHolder .mddtp-picker__grid span.mddtp-picker__cell--selected {
+    background-color: #0288CD;
+}
+/deep/ .mddtp-picker .mddtp-picker__header {
+    background-color: #0288CD;
+}
+/deep/ .mddtp-picker .mddtp-picker__header .mddtp-picker__title {
+    font-size: 28px;
+}

@@ -1,0 +1,31 @@
+<div class="autocomplete-container">
+    <md-input
+        #searchField="ngModel"
+        autoComplete="off"
+        readOnly="{{readonly}}"
+        (focus)="onEnter()"
+        (blur)="onLeave()"
+        (keyup)= "onKeyUp($event)"
+        [(ngModel)] = "searchText"
+        placeholder="{{placeholder}}"
+        required="{{required}}">
+    </md-input>
+    <md-icon
+        *ngIf="clearable"
+        fontSet="fa"
+        fontIcon="fa-times"
+        (click)="clear()">
+    </md-icon>
+    <div class="md-whiteframe-z1 autocomplete-list" *ngIf="popupVisible">
+        <ul class="autocomplete-suggestions">
+            <li
+                *ngFor= "let item of matches"
+                (mousedown)="select(item)"
+                [class.selected]="selectedItem?.id == item.id">
+
+                <p>{{item[itemText]}}</p>
+                <md-divider></md-divider>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+
+md-card {
+    width: 80%;
+    background: #323E55;
+    color: white;
+    cursor: pointer;
+
+    md-card-content {
+        text-align: center;
+        padding: 20px;
+        md-icon {
+            margin-bottom: 20px;
+            font-size: 50px;
+        }
+    }
+
+}
