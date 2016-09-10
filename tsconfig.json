@@ -2,15 +2,15 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
-        "outDir": "dist",
+        "outDir": "lib",
         "rootDir": ".",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "moduleResolution": "node"
     },
-    "exclude": [
-        "node_modules"
+    "files": [
+        "typings/index.d.ts"
     ],
     "awesomeTypescriptLoaderOptions": {
         "useWebpackText": true

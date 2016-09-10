@@ -4,4 +4,5 @@
 /typings/
 /typings.json
 /tsconfig.json
+/src/tsconfig.json
 /webpack.config.js

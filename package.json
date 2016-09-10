@@ -1,6 +1,6 @@
 {
     "name": "@baumi/angular2-select",
-    "version": "2.0.8",
+    "version": "2.1.0",
     "description": "An implementation of material design select element for Angular 2",
     "scripts": {
         "typings-install": "typings install",
