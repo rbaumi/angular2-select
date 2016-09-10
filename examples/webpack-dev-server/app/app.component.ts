@@ -30,6 +30,10 @@ export class Option {
         div.error {
             color: red;
         }
+        div.divider {
+            clear:both;
+            margin:20px;
+        }
     `],
     template: `
     <div>
@@ -46,8 +50,21 @@ export class Option {
             </bm-ng2-select>
         </div>
         <div class="selector-container">
+            <h4>Asynchronously loaded:</h4>
+            <bm-ng2-select
+                placeholder="Select an item"
+                (selectionChanged)="onSelectionChange('Item', $event);">
+                <bm-ng2-option
+                    *ngFor="let item of selectorOptions"
+                    value="{{item.value}}"
+                    selected="{{item.selected}}"
+                    disabled="{{item.disabled}}">{{item.name}}</bm-ng2-option>
+            </bm-ng2-select>
+        </div>
+        <div class="divider"></div>
+        <div class="selector-container">
             <form [formGroup]="demoForm">
-                <h4>As formControl element:</h4>
+                <h4>Model driven form:</h4>
                 <bm-ng2-select
                     formControlName="person"
                     placeholder="Select person"
@@ -63,16 +80,18 @@ export class Option {
             </div>
         </div>
         <div class="selector-container">
-            <h4>Asynchronously loaded:</h4>
-            <bm-ng2-select
-                placeholder="Select an item"
-                (selectionChanged)="onSelectionChange('Item', $event);">
-                <bm-ng2-option
-                    *ngFor="let item of selectorOptions"
-                    value="{{item.value}}"
-                    selected="{{item.selected}}"
-                    disabled="{{item.disabled}}">{{item.name}}</bm-ng2-option>
-            </bm-ng2-select>
+            <form #f="ngForm">
+                <h4>Template driven form:</h4>
+                <bm-ng2-select
+                    [(ngModel)]="formName"
+                    name="color"
+                    placeholder="Select color"
+                    (selectionChanged)="onSelectionChange('Color', $event);">
+                    <bm-ng2-option value="RED">Red</bm-ng2-option>
+                    <bm-ng2-option value="BLACK">Black</bm-ng2-option>
+                    <bm-ng2-option value="YELLOW">Yellow</bm-ng2-option>
+                </bm-ng2-select>
+            </form>
         </div>
         <div class="notifications">
             Notifications: {{ message }}
@@ -85,7 +104,7 @@ export class AppComponent implements OnInit {
     private messageClearTimeout: any;
     private demoForm: FormGroup;
     private selectorOptions: Option[] = [];
-
+    private formName: string = 'YELLOW';
 
     constructor() {
 

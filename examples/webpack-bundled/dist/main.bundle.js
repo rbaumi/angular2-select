@@ -8447,6 +8447,7 @@ webpackJsonp([1],{
 	var AppComponent = (function () {
 	    function AppComponent() {
 	        this.selectorOptions = [];
+	        this.formName = 'YELLOW';
 	    }
 	    AppComponent.prototype.ngOnInit = function () {
 	        this.demoForm = new forms_1.FormGroup({
@@ -8492,8 +8493,8 @@ webpackJsonp([1],{
 	    AppComponent = __decorate([
 	        core_1.Component({
 	            selector: 'my-app',
-	            styles: ["\n        div.selector-container {\n            width:200px;\n            margin:20px;\n            float:left;\n        }\n        div.notifications {\n            position: fixed;\n            bottom:0;\n            padding:40px;\n        }\n        div.error {\n            color: red;\n        }\n    "],
-	            template: "\n    <div>\n        <h2>angular2-select</h2>\n        <div class=\"selector-container\">\n            <h4>Simple selector:</h4>\n            <bm-ng2-select\n                placeholder=\"Select a country\"\n                (selectionChanged)=\"onSelectionChange('Country', $event);\">\n                <bm-ng2-option value=\"PL\">Poland</bm-ng2-option>\n                <bm-ng2-option value=\"US\" disabled=\"true\">USA</bm-ng2-option>\n                <bm-ng2-option value=\"DK\" selected=\"true\">Denmark</bm-ng2-option>\n                <bm-ng2-option value=\"FR\">France</bm-ng2-option>\n            </bm-ng2-select>\n        </div>\n        <div class=\"selector-container\">\n            <form [formGroup]=\"demoForm\">\n                <h4>As formControl element:</h4>\n                <bm-ng2-select\n                    formControlName=\"person\"\n                    placeholder=\"Select person\"\n                    required=true\n                    (selectionChanged)=\"onSelectionChange('Name', $event);\">\n                    <bm-ng2-option value=\"ANNA\">Anna</bm-ng2-option>\n                    <bm-ng2-option value=\"NATALIA\">Natalia</bm-ng2-option>\n                    <bm-ng2-option value=\"KASIA\">Kasia</bm-ng2-option>\n                </bm-ng2-select>\n            </form>\n            <div class=\"error\" *ngIf=\"!demoForm.controls.person.valid\">\n                This field is required\n            </div>\n        </div>\n        <div class=\"selector-container\">\n            <h4>Asynchronously loaded:</h4>\n            <bm-ng2-select\n                placeholder=\"Select an item\"\n                (selectionChanged)=\"onSelectionChange('Item', $event);\">\n                <bm-ng2-option\n                    *ngFor=\"let item of selectorOptions\"\n                    value=\"{{item.value}}\"\n                    selected=\"{{item.selected}}\"\n                    disabled=\"{{item.disabled}}\">{{item.name}}</bm-ng2-option>\n            </bm-ng2-select>\n        </div>\n        <div class=\"notifications\">\n            Notifications: {{ message }}\n        </div>\n    </div>\n  ",
+	            styles: ["\n        div.selector-container {\n            width:200px;\n            margin:20px;\n            float:left;\n        }\n        div.notifications {\n            position: fixed;\n            bottom:0;\n            padding:40px;\n        }\n        div.error {\n            color: red;\n        }\n        div.divider {\n            clear:both;\n            margin:20px;\n        }\n    "],
+	            template: "\n    <div>\n        <h2>angular2-select</h2>\n        <div class=\"selector-container\">\n            <h4>Simple selector:</h4>\n            <bm-ng2-select\n                placeholder=\"Select a country\"\n                (selectionChanged)=\"onSelectionChange('Country', $event);\">\n                <bm-ng2-option value=\"PL\">Poland</bm-ng2-option>\n                <bm-ng2-option value=\"US\" disabled=\"true\">USA</bm-ng2-option>\n                <bm-ng2-option value=\"DK\" selected=\"true\">Denmark</bm-ng2-option>\n                <bm-ng2-option value=\"FR\">France</bm-ng2-option>\n            </bm-ng2-select>\n        </div>\n        <div class=\"selector-container\">\n            <h4>Asynchronously loaded:</h4>\n            <bm-ng2-select\n                placeholder=\"Select an item\"\n                (selectionChanged)=\"onSelectionChange('Item', $event);\">\n                <bm-ng2-option\n                    *ngFor=\"let item of selectorOptions\"\n                    value=\"{{item.value}}\"\n                    selected=\"{{item.selected}}\"\n                    disabled=\"{{item.disabled}}\">{{item.name}}</bm-ng2-option>\n            </bm-ng2-select>\n        </div>\n        <div class=\"divider\"></div>\n        <div class=\"selector-container\">\n            <form [formGroup]=\"demoForm\">\n                <h4>Model driven form:</h4>\n                <bm-ng2-select\n                    formControlName=\"person\"\n                    placeholder=\"Select person\"\n                    required=true\n                    (selectionChanged)=\"onSelectionChange('Name', $event);\">\n                    <bm-ng2-option value=\"ANNA\">Anna</bm-ng2-option>\n                    <bm-ng2-option value=\"NATALIA\">Natalia</bm-ng2-option>\n                    <bm-ng2-option value=\"KASIA\">Kasia</bm-ng2-option>\n                </bm-ng2-select>\n            </form>\n            <div class=\"error\" *ngIf=\"!demoForm.controls.person.valid\">\n                This field is required\n            </div>\n        </div>\n        <div class=\"selector-container\">\n            <form #f=\"ngForm\">\n                <h4>Template driven form:</h4>\n                <bm-ng2-select\n                    [(ngModel)]=\"formName\"\n                    name=\"color\"\n                    placeholder=\"Select color\"\n                    (selectionChanged)=\"onSelectionChange('Color', $event);\">\n                    <bm-ng2-option value=\"RED\">Red</bm-ng2-option>\n                    <bm-ng2-option value=\"BLACK\">Black</bm-ng2-option>\n                    <bm-ng2-option value=\"YELLOW\">Yellow</bm-ng2-option>\n                </bm-ng2-select>\n            </form>\n        </div>\n        <div class=\"notifications\">\n            Notifications: {{ message }}\n        </div>\n    </div>\n  ",
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], AppComponent);
@@ -8680,7 +8681,22 @@ webpackJsonp([1],{
 	        // in case we use selector in form and set data for it using [(ngModel)]
 	        // we ahve only value of selection (function writeValue is called before the view is initiaded).
 	        this._markOptionAsSelected(this.selection.value);
-	        this.changeDetectionRef.detectChanges();
+	    };
+	    /*
+	     * In model driven form if the value is set when initializing the form, eg:
+	     * person: new FormControl('ANNA') then the life cycle of library is:
+	     * writeValue (from ControlValueAccessor) -> ngAfterContentChecked -> options ngAfterViewInit.
+	     * we set the selected text in:
+	     * a) writeValue (if ngAfterContentChecked already called - this happens in template driven forms)
+	     * b) ngAfterContentChecked (when we load data asynchronously)
+	     * but in this case (model driven form) we have no text as it is set in option ngAfterViewInit
+	     * So we have to set the selection text here if value is set but no text.
+	     */
+	    Angular2SelectComponent.prototype.ngAfterViewInit = function () {
+	        if (this.selection.value && !this.selection.text) {
+	            this._markOptionAsSelected(this.selection.value);
+	            this.changeDetectionRef.detectChanges();
+	        }
 	    };
 	    /**
 	     * Implementation of ControlValueAccessor interface
@@ -8688,6 +8704,11 @@ webpackJsonp([1],{
 	    Angular2SelectComponent.prototype.writeValue = function (value) {
 	        if (value !== undefined) {
 	            this.selection.value = value;
+	            // selector was initialized before so to get a selection text
+	            // we have to do it now
+	            if (this.initialized) {
+	                this._markOptionAsSelected(this.selection.value);
+	            }
 	            this.propagateChange(value);
 	        }
 	    };

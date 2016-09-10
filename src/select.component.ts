@@ -15,6 +15,7 @@ import { Component,
     HostListener,
     Output,
     ChangeDetectorRef,
+    AfterViewInit,
     AfterContentChecked }                  from '@angular/core';
 import { ControlValueAccessor,
     NG_VALUE_ACCESSOR }                 from '@angular/forms';
@@ -121,7 +122,7 @@ export interface Selection {
         multi: true
     }]
 })
-export class Angular2SelectComponent implements ControlValueAccessor, AfterContentChecked {
+export class Angular2SelectComponent implements ControlValueAccessor, AfterContentChecked, AfterViewInit {
     @Input() placeholder: string;
     @Input() required: boolean = false;
 
@@ -195,8 +196,24 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
         // but it will work only in case we have a property selected in option.
         // in case we use selector in form and set data for it using [(ngModel)]
         // we ahve only value of selection (function writeValue is called before the view is initiaded).
-        this._markOptionAsSelected(this.selection.value)
-        this.changeDetectionRef.detectChanges();
+        this._markOptionAsSelected(this.selection.value);
+    }
+
+    /*
+     * In model driven form if the value is set when initializing the form, eg:
+     * person: new FormControl('ANNA') then the life cycle of library is:
+     * writeValue (from ControlValueAccessor) -> ngAfterContentChecked -> options ngAfterViewInit.
+     * we set the selected text in:
+     * a) writeValue (if ngAfterContentChecked already called - this happens in template driven forms)
+     * b) ngAfterContentChecked (when we load data asynchronously)
+     * but in this case (model driven form) we have no text as it is set in option ngAfterViewInit
+     * So we have to set the selection text here if value is set but no text.
+     */
+    ngAfterViewInit() {
+        if (this.selection.value && !this.selection.text) {
+            this._markOptionAsSelected(this.selection.value);
+            this.changeDetectionRef.detectChanges();
+        }
     }
 
     /**
@@ -205,6 +222,12 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
     writeValue(value: string) {
         if (value !== undefined) {
             this.selection.value = value;
+
+            // selector was initialized before so to get a selection text
+            // we have to do it now
+            if (this.initialized) {
+                this._markOptionAsSelected(this.selection.value);
+            }
             this.propagateChange(value);
         }
     }
@@ -236,6 +259,8 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
             let option = this.options.filter(opt => {
                 return opt.value == value;
             });
+
+
             if (option && option.length) {
                 option[0].markAsSelected(false);
                 this.selection.text = option[0].text;
