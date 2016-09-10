@@ -3,6 +3,16 @@ import { Component,
 import { FormGroup,
          FormControl,
          Validators }                   from '@angular/forms';
+ import { Observable }                  from 'rxjs/Observable';
+ import 'rxjs/add/observable/from';
+ import 'rxjs/add/operator/delay';
+
+export class Option {
+    value: string;
+    name: string;
+    selected?: boolean;
+    disabled?: boolean;
+}
 
 @Component({
     selector: 'my-app',
@@ -52,6 +62,18 @@ import { FormGroup,
                 This field is required
             </div>
         </div>
+        <div class="selector-container">
+            <h4>Asynchronously loaded:</h4>
+            <bm-ng2-select
+                placeholder="Select an item"
+                (selectionChanged)="onSelectionChange('Item', $event);">
+                <bm-ng2-option
+                    *ngFor="let item of selectorOptions"
+                    value="{{item.value}}"
+                    selected="{{item.selected}}"
+                    disabled="{{item.disabled}}">{{item.name}}</bm-ng2-option>
+            </bm-ng2-select>
+        </div>
         <div class="notifications">
             Notifications: {{ message }}
         </div>
@@ -62,6 +84,8 @@ export class AppComponent implements OnInit {
     private message: string;
     private messageClearTimeout: any;
     private demoForm: FormGroup;
+    private selectorOptions: Option[] = [];
+
 
     constructor() {
 
@@ -70,6 +94,36 @@ export class AppComponent implements OnInit {
         this.demoForm = new FormGroup({
             person: new FormControl('')
         });
+
+        this.getAsynchronously();
+    }
+
+    getAsynchronously() {
+        let options: Option[] = [{
+            value: 'SOFA',
+            name: 'Sofa'
+        }, {
+            value: 'TV',
+            name: 'TV',
+            selected: true
+        }, {
+            value: 'TABLE',
+            name: 'Table',
+            disabled: true
+        }];
+
+        let subscription = Observable.from(options).delay(1000).subscribe(
+            option => {
+                this.selectorOptions.push(option);
+            },
+            err => {
+                console.log(err);
+            },
+            () => {
+                this.setMessage('Content of selector asynchronously loaded!');
+            }
+        );
+
     }
 
     setMessage(msg: string) {

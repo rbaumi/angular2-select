@@ -6,7 +6,7 @@ import { Component,
     OnInit,
     ElementRef,
     ChangeDetectorRef,
-    ViewChild }                         from '@angular/core';
+    ViewChild } from '@angular/core';
 
 @Component({
     selector: 'bm-ng2-option',
@@ -59,7 +59,7 @@ export class Angular2OptionComponent implements OnInit, AfterViewInit {
     @Input() value: string;
     @Input() disabled: boolean = false;
     @Input() selected: boolean = false;
-    @Output() onSelect: EventEmitter<string> = new EventEmitter();
+    @Output() onSelect: EventEmitter<string> = new EventEmitter<string>();
 
     @ViewChild('contentWrapper') DOMContent: ElementRef;
 

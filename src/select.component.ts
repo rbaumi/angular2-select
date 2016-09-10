@@ -11,11 +11,11 @@ import { Component,
     ContentChildren,
     ViewChild,
     QueryList,
-    AfterViewInit,
     Input,
     HostListener,
     Output,
-    ChangeDetectorRef }                 from '@angular/core';
+    ChangeDetectorRef,
+    AfterContentChecked }                  from '@angular/core';
 import { ControlValueAccessor,
     NG_VALUE_ACCESSOR }                 from '@angular/forms';
 import { FormGroup,
@@ -121,11 +121,11 @@ export interface Selection {
         multi: true
     }]
 })
-export class Angular2SelectComponent implements ControlValueAccessor, AfterViewInit {
+export class Angular2SelectComponent implements ControlValueAccessor, AfterContentChecked {
     @Input() placeholder: string;
     @Input() required: boolean = false;
 
-    @Output() selectionChanged: EventEmitter<string> = new EventEmitter();
+    @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
     @ViewChild('internalInput') internalInput;
     @ContentChildren(Angular2OptionComponent) options: QueryList<Angular2OptionComponent>;
 
@@ -141,6 +141,9 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
 
     // to propagate touch event to external form
     private propagateTouch = (_: any) => { };
+
+    // information if we have subscribed to all options change events
+    private initialized: boolean = false;
 
     constructor(
         private el: ElementRef,
@@ -161,8 +164,20 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterViewI
         if (!this.el.nativeElement.contains(event.target))
             this._hideOptions();
     }
+    /**
+     * Function binds to all options onSelect emitted events.
+     * We do it in AfterContentChecked life cycle hook because the options
+     * can be loaded asynchronously with some delay. Using initialized flag we
+     * make sure we subscribe to it just once.
+     */
+    ngAfterContentChecked() {
+        if (!this.options.length || this.initialized)
+            return;
 
-    ngAfterViewInit() {
+        // mark as initialized
+        this.initialized = true;
+
+        // subscribe to all options emitted events
         this.options.forEach((option) => {
             option.onSelect.subscribe(
                 value => {
