@@ -225,7 +225,7 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
 
             // selector was initialized before so to get a selection text
             // we have to do it now
-            if (this.initialized) {
+            if (this.initialized && !this.selection.text) {
                 this._markOptionAsSelected(this.selection.value);
             }
             this.propagateChange(value);
