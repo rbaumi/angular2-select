@@ -228,7 +228,6 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
             if (this.initialized && !this.selection.text) {
                 this._markOptionAsSelected(this.selection.value);
             }
-            this.propagateChange(value);
         }
     }
 
