@@ -1,6 +1,6 @@
 ## angular2-select
 
-Select box input module for Angular2 using Material Design. Based on [official angular2-seed](https://github.com/angular/angular2-seed).
+Select box input module for Angular2 (RC.7) using anuglar2-material (2.0.0-rc.7). Based on [official angular2-seed](https://github.com/angular/angular2-seed).
 
 See [demo plunker](https://embed.plnkr.co/uIMv76/).
 
