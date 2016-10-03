@@ -16,7 +16,7 @@ import { Component,
     Output,
     ChangeDetectorRef,
     AfterViewInit,
-    AfterContentChecked }                  from '@angular/core';
+    AfterContentChecked }               from '@angular/core';
 import { ControlValueAccessor,
     NG_VALUE_ACCESSOR }                 from '@angular/forms';
 import { FormGroup,

@@ -37,4 +37,5 @@ import { Angular2OptionComponent }      from './option.component';
     ]
 })
 export class Angular2SelectModule {
+    private dom;
 }

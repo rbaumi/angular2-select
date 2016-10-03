@@ -8,7 +8,7 @@ See [demo plunker](https://embed.plnkr.co/uIMv76/).
 
 ### Dependencies
 
-- Angular2 in version min 2.0.0-rc.7
+- Angular2 in version 2.0.0
 - [@angular2-material modules](https://www.npmjs.com/~angular2-material):
     - [core](https://www.npmjs.com/package/@angular2-material/core)
     - [card](https://www.npmjs.com/package/@angular2-material/card)
