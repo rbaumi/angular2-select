@@ -1,6 +1,6 @@
 ## angular2-select
 
-Select box input module for Angular2 (2.0 FINAL RELEASE) using anuglar2-material (2.0.0-alpha.8-1). Based on [official angular2-seed](https://github.com/angular/angular2-seed).
+Select box input module for Angular2 (2.0 FINAL RELEASE) using anuglar2-material (2.0.0-alpha.8-2). Based on [official angular2-seed](https://github.com/angular/angular2-seed).
 
 See [demo plunker](https://embed.plnkr.co/uIMv76/).
 
@@ -8,7 +8,7 @@ See [demo plunker](https://embed.plnkr.co/uIMv76/).
 
 ### Dependencies
 
-- Angular2 in version 2.0.0
+- Angular2 in version 2.0.1
 - [@angular2-material modules](https://www.npmjs.com/~angular2-material):
     - [core](https://www.npmjs.com/package/@angular2-material/core)
     - [card](https://www.npmjs.com/package/@angular2-material/card)
