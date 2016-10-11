@@ -246,6 +246,13 @@ export class Angular2SelectComponent implements ControlValueAccessor, AfterConte
     }
 
     /**
+     * Implementation of ControlValueAccessor interface
+     */
+    setDisabledState(isDisabled: boolean) {
+        this.internalInput.disabled = isDisabled
+    }
+
+    /**
      * Function looks for specific bm-ng2-option element and mark it as active
      * @param value string value of bm-ng2-option element to be selected
      */

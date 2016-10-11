@@ -8839,7 +8839,7 @@ webpackJsonp([1],{
 	    }
 	    AppComponent.prototype.ngOnInit = function () {
 	        this.demoForm = new forms_1.FormGroup({
-	            person: new forms_1.FormControl('')
+	            person: new forms_1.FormControl({ value: '', disabled: false })
 	        });
 	        this.getAsynchronously();
 	    };
@@ -9110,6 +9110,12 @@ webpackJsonp([1],{
 	     */
 	    Angular2SelectComponent.prototype.registerOnTouched = function (fn) {
 	        this.propagateTouch = fn;
+	    };
+	    /**
+	     * Implementation of ControlValueAccessor interface
+	     */
+	    Angular2SelectComponent.prototype.setDisabledState = function (isDisabled) {
+	        this.internalInput.disabled = isDisabled;
 	    };
 	    /**
 	     * Function looks for specific bm-ng2-option element and mark it as active

@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
     }
     ngOnInit() {
         this.demoForm = new FormGroup({
-            person: new FormControl('')
+            person: new FormControl({value: '', disabled: false})
         });
 
         this.getAsynchronously();

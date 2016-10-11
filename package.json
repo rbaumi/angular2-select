@@ -1,15 +1,15 @@
 {
     "name": "@baumi/angular2-select",
-    "version": "2.1.10",
+    "version": "2.1.11",
     "description": "An implementation of material design select element for Angular 2",
     "scripts": {
-        "typings-install": "typings install",
+        "typings-install": "$(npm bin)/typings install",
         "postinstall": "npm run typings-install",
-        "build-dev": "webpack --inline --colors --progress --display-error-details --display-cached",
-        "build-lib": "tsc -p src -d",
+        "build-dev": "$(npm bin)/webpack --inline --colors --progress --display-error-details --display-cached",
+        "build-lib": "$(npm bin)/tsc -p src -d",
         "build": "npm run build-lib && npm run build-dev",
         "prepublish": "npm run build",
-        "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 5000  --content-base examples/webpack-dev-server",
+        "server": "$(npm bin)/webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 5000  --content-base examples/webpack-dev-server",
         "start": "npm run server"
     },
     "repository": {
@@ -38,7 +38,7 @@
         "typescript": "2.0.3",
         "typings": "~1.4.0",
         "webpack": "1.13.2",
-        "webpack-dev-server": "1.16.1",
+        "webpack-dev-server": "1.16.2",
         "webpack-merge": "0.14.1"
     },
     "dependencies": {
