@@ -1,0 +1,27 @@
+{
+    "name": "@baumi/angular2-select",
+    "version": "2.2.0",
+    "author": "Rafal Baumann",
+    "license": "MIT",
+    "homepage": "https://github.com/rbaumi/angular2-select",
+    "description": "An implementation of material design select element for Angular 2",
+    "bugs": {
+        "url": "https://github.com/rbaumi/angular2-select/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rbaumi/angular2-select.git"
+    },
+    "main": "./index.js",
+    "keywords": ["angular", "angular2", "select", "selectbox"],
+    "peerDependencies": {
+        "@angular/common": "^2.0.1",
+        "@angular/core": "^2.0.1"
+    },
+    "dependencies": {
+        "@types/hammerjs": "^2.0.8",
+        "@angular/forms": "^2.0.1",
+        "@angular/http": "^2.0.1",
+        "@angular/material": "^2.0.0-alpha.9-3"
+    }
+}

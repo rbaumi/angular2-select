@@ -4,23 +4,17 @@ import { HttpModule }                   from '@angular/http';
 import { FormsModule,
          ReactiveFormsModule }          from '@angular/forms';
 
-import { MdRippleModule }               from '@angular2-material/core';
-import { MdCardModule }                 from '@angular2-material/card';
-import { MdInputModule }                from '@angular2-material/input';
-import { MdIconModule,
-        MdIconRegistry }                from '@angular2-material/icon';
+import { MaterialModule,
+         MdIconRegistry }               from '@angular/material';
 
-import { Angular2SelectComponent }      from './select.component';
-import { Angular2OptionComponent }      from './option.component';
+import { Angular2SelectComponent }      from './component/select.component';
+import { Angular2OptionComponent }      from './component/option.component';
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
-        MdRippleModule,
-        MdCardModule,
-        MdInputModule,
-        MdIconModule,
+        MaterialModule,
         FormsModule,
         ReactiveFormsModule
     ],
@@ -37,5 +31,5 @@ import { Angular2OptionComponent }      from './option.component';
     ]
 })
 export class Angular2SelectModule {
-    private dom;
+    
 }

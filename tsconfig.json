@@ -1,23 +1,28 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "outDir": "lib",
-        "rootDir": ".",
-        "sourceMap": true,
+        "declaration": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "moduleResolution": "node"
+        "lib": ["es6", "es2015", "dom"],
+        "mapRoot": "/",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "outDir": "dist/",
+        "sourceMap": true,
+        "target": "es5",
+        "stripInternal": true,
+        "baseUrl": "",
+        "typeRoots": ["node_modules/@types"],
+        "paths": {
+            "@angular/baumi": ["dist/@baumi/angular2-select"]
+        },
+        "types": ["hammerjs"]
     },
-    "files": [
-        "typings/index.d.ts"
-    ],
-    "awesomeTypescriptLoaderOptions": {
-        "useWebpackText": true
-    },
-    "compileOnSave": false,
-    "buildOnSave": false,
-    "atom": {
-        "rewriteTsconfig": false
+    "angularCompilerOptions": {
+        "genDir": "dist",
+        "skipTemplateCodegen": true,
+        "debug": true
     }
 }

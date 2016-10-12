@@ -39,10 +39,9 @@ var webpackConfig = {
 
 };
 
-
 // Our Webpack Defaults
 var defaultConfig = {
-    devtool: 'cheap-module-source-map',
+    devtool: 'source-map',
     cache: true,
     debug: true,
     output: {
@@ -52,7 +51,7 @@ var defaultConfig = {
     },
 
     resolve: {
-        root: [path.join(__dirname, 'dev')],
+        root: [path.join(__dirname, 'examples/webpack-dev-server')],
         extensions: ['', '.ts', '.js']
     },
 

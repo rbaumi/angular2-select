@@ -89,6 +89,7 @@ export interface Selection {
           top: 0;
           width: 100%;
           z-index: 3;
+          background: white;
         }
 
         div.bm-ng2-select-container div.options md-card {

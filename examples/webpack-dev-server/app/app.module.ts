@@ -3,7 +3,7 @@ import { NgModule }                     from "@angular/core";
 import { FormsModule,
          ReactiveFormsModule }          from '@angular/forms';
 import { AppComponent }                 from "./app.component";
-import { Angular2SelectModule }         from "../../../src/angular2-select.module";
+import { Angular2SelectModule }         from "../../../src/module";
 
 @NgModule({
     imports: [

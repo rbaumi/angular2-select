@@ -1,6 +1,4 @@
-/typings/
-/lib/
+/dist/
 /node_modules/
 /src/npm-debug.log
 /npm-debug.log
-/typings/
