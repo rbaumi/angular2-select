@@ -1,6 +1,6 @@
 {
     "name": "@baumi/angular2-select",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "author": "Rafal Baumann",
     "license": "MIT",
     "homepage": "https://github.com/rbaumi/angular2-select",
@@ -15,13 +15,13 @@
     "main": "./index.js",
     "keywords": ["angular", "angular2", "select", "selectbox"],
     "peerDependencies": {
-        "@angular/common": "^2.0.1",
-        "@angular/core": "^2.0.1"
+        "@angular/common": "^2.0.2",
+        "@angular/core": "^2.0.2"
     },
     "dependencies": {
         "@types/hammerjs": "^2.0.8",
-        "@angular/forms": "^2.0.1",
-        "@angular/http": "^2.0.1",
+        "@angular/forms": "^2.0.2",
+        "@angular/http": "^2.0.2",
         "@angular/material": "^2.0.0-alpha.9-3"
     }
 }
